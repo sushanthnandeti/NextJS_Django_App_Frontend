@@ -1,5 +1,6 @@
 'use server'
 
+import { setRefreshToken, setToken, deleteToken, getToken } from '@/app/lib/auth'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
@@ -27,6 +28,9 @@ export async function POST(request) {
      
         if (response.ok) {
             console.log(" Logged In")
+            const {access, refresh } = requestData
+            setToken(access)
+            setRefreshToken(refresh)
             console.log(responseData)
         }
       const cookieStore = await cookies(); // Call cookies() function
