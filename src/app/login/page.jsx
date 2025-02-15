@@ -2,9 +2,9 @@
 
 // --> url --> /login    
 
-const LOGIN_URL = "http://127.0.0.1:8001/api/token/pair"
+const LOGIN_URL = "/api/login/"
 
-export default function Login() {
+export default function Page() {
 
     async function handleClick(event) {
         event.preventDefault()
@@ -14,14 +14,16 @@ export default function Login() {
         const jsonData = JSON.stringify(objectFromForm)
         const requestOptions = {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: jsonData
         }
         const response  = await fetch(LOGIN_URL, requestOptions)
+        
         const data = await response.json()
-        console.log(data)
+     
         if (response.ok) {
             console.log(" Logged In")
         }
