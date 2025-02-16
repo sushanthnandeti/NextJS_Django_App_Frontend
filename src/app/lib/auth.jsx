@@ -1,24 +1,25 @@
-const { cookies } = require("next/headers");
+const { cookies } = require("next/headers")
+
 
 const TOKEN_AGE = 3600
 const ACCESS_TOKEN = 'auth-token'
 const REFRESH_TOKEN = 'auth-refresh-token'
 
-export function getToken() {
+export async function getToken() {
     // API requests to the backend
-    const myAuthToken = cookieStore.get(ACCESS_TOKEN)
+    const myAuthToken = await cookies().get(ACCESS_TOKEN)
     return myAuthToken?.value
 }   
 
-export function getRefreshToken() {
+export async function getRefreshToken() {
     // API requests to the backend
-    const myAuthToken = cookieStore.get(REFRESH_TOKEN)
+    const myAuthToken = await cookies().get(REFRESH_TOKEN)
     return myAuthToken?.value
 }   
 
-export function setToken(authToken) {    
+export async function setToken(authToken) {    
     // login
-        cookieStore.set({
+        await cookies().set({
         name: ACCESS_TOKEN,
         value: authToken,
         httpOnly: true,
@@ -28,9 +29,9 @@ export function setToken(authToken) {
       })
 }
 
-export function setRefreshToken(authRefreshToken) {    
+export async function setRefreshToken(authRefreshToken) {    
     // login
-        cookieStore.set({
+        await cookies().set({
         name: REFRESH_TOKEN,
         value: authRefreshToken,
         httpOnly: true,
@@ -39,9 +40,9 @@ export function setRefreshToken(authRefreshToken) {
         secure: process.env.NODE_ENV !== 'development', 
       })
 }
-export function deleteToken() {
+export async function deleteToken() {
     // logout
-    cookieStore.delete(REFRESH_TOKEN)
-    return cookieStore.delete(ACCESS_TOKEN)
+    await cookies().delete(REFRESH_TOKEN)
+    return await cookies().delete(ACCESS_TOKEN)
     
 }

@@ -1,16 +1,16 @@
 'use server'
-
-import { setRefreshToken, setToken, deleteToken, getToken } from '@/app/lib/auth'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
-
+import { getToken, getRefreshToken, setToken, setRefreshToken } from '../../lib/auth'
 
 const DJANGO_API_LOGIN_URL = "http://127.0.0.1:8001/api/token/pair"
 
 export async function POST(request) {
 
-        // const myAuthToken = cookies.get('auth-token')
-        // console.log(myAuthToken)
+        // const myAuthToken = getToken()
+        // const myRefreshToken = getRefreshToken()
+
+        // console.log(myAuthToken, myRefreshToken)
 
         const requestData = await request.json()
         const jsonData = JSON.stringify(requestData)
@@ -32,19 +32,23 @@ export async function POST(request) {
             setToken(access)
             setRefreshToken(refresh)
             console.log(responseData)
+
+            const myAuthToken = getToken()
+            const myRefreshToken = getRefreshToken()
+
+            console.log(myAuthToken, myRefreshToken)
         }
-      const cookieStore = await cookies(); // Call cookies() function
+     // const cookieStore = await cookies(); // Call cookies() function
       
-      await cookieStore.set({
-        name: 'auth-token',
-        value: authToken,
-        httpOnly: true,
-        sameSite: 'strict',
-        maxAge: 3600,
-        secure: process.env.NODE_ENV !== 'development', 
-      })
-      
-      //const authToken =  await cookieStore.get('auth-token')
+      // await cookies().set({
+      //   name: 'auth-token',
+      //   value: authToken,
+      //   httpOnly: true,
+      //   sameSite: 'strict',
+      //   maxAge: 3600,
+      //   secure: process.env.NODE_ENV !== 'development', 
+      // })
+     
 
       return NextResponse.json({ "message": 'Hello World'})
 }
