@@ -1,6 +1,5 @@
 'use client'
 
-import { useRouter } from "next/navigation";
 import { useAuth } from "../components/authProvider";
 // --> url --> /login    
 
@@ -8,7 +7,7 @@ const LOGIN_URL = "/api/login/"
 
 export default function Page() {
     const auth = useAuth()
-    const router = useRouter()
+   
 
     async function handleClick(event) {
         event.preventDefault()
@@ -32,7 +31,6 @@ export default function Page() {
             console.log(" Logged In")
             console.log(data)
             auth.login()
-            router.replace("/")
         }
 
     }
