@@ -1,13 +1,20 @@
 'use client'
 
-const { createContext, useContext} = require("react");
+const { createContext, useContext, useState} = require("react");
 const AuthContext = createContext(null);
 
 export function AuthProvider({children}) {
     
-    const isAuthenticated = true
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
 
-    return <AuthContext.Provider value = {{isAuthenticated}}>
+    const login = () => {
+        setIsAuthenticated(true)
+    }
+    const logout = () => {
+        setIsAuthenticated(false)
+        }
+
+    return <AuthContext.Provider value = {{isAuthenticated, login, logout}}>
         {children}
     </AuthContext.Provider>
 }
