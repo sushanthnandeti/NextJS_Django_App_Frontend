@@ -1,6 +1,6 @@
 
 import { NextResponse } from 'next/server';
-import { deleteTokens } from '../../lib/auth';
+import { deleteTokens } from '../../../lib/auth';
 
 
 export async function POST(request) { 
