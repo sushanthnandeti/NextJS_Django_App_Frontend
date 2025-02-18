@@ -1,10 +1,14 @@
 'use client'
 
+import { useRouter } from "next/navigation";
+
 // --> url --> /login    
 
 const LOGIN_URL = "/api/login/"
 
 export default function Page() {
+
+    const router = useRouter()
 
     async function handleClick(event) {
         event.preventDefault()
@@ -27,6 +31,7 @@ export default function Page() {
         if (response.ok) {
             console.log(" Logged In")
             console.log(data)
+            router.replace("/")
         }
 
     }

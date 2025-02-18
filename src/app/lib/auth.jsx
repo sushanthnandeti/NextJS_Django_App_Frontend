@@ -45,6 +45,6 @@ export async function setRefreshToken(authRefreshToken) {
 // Delete both tokens
 export async function deleteTokens() {
   const cookieStore = await cookies();
-  await cookieStore.delete(TOKEN_REFRESH_NAME);
-  return await cookieStore.delete(TOKEN_NAME);
+  cookieStore.delete(TOKEN_REFRESH_NAME);
+  return cookieStore.delete(TOKEN_NAME);
 }
