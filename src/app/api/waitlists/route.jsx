@@ -1,9 +1,8 @@
-'use server'
 
 import { NextResponse } from 'next/server';
 import {getToken} from '../../../lib/auth';
 
-const DJANGO_API_WAITLIST_URL = "http://127.0.0.1:8001/api/waitlist/";
+const DJANGO_API_WAITLIST_URL = "http://127.0.0.1:8001/api/waitlists/";
 
 
 export async function GET(request){
@@ -29,7 +28,6 @@ export async function GET(request){
     if (!response.ok) {
         status = 401
     }
-
      const result = await response.json();
     return NextResponse.json({result}, { status: status})
 } 

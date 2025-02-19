@@ -1,37 +1,16 @@
 'use client'
 import { useAuth } from './/components/authProvider';
 import Image from "next/image";
-import { useEffect } from 'react';
+import { useState } from "react";
 import useSWR from 'swr'
 
-
-const fetcher = async url => {
-  const res = await fetch(url)
- 
-  if (!res.ok) {
-    const error = new Error('An error occurred while fetching the data.')
-    // Attach extra info to the error object.
-    error.info = await res.json()
-    error.status = res.status
-    throw error
-  }
- 
-  return res.json()
-}
+const fetcher = (...args) => fetch(...args).then(res => res.json())
 
 export default function Home() {
 
   const auth = useAuth()
   const { data, error, isLoading } = useSWR('http://127.0.0.1:8001/api/hello',fetcher)
-
-      console.log(error?.response?.status)
-
-      // useEffect(()=> {
-      //   if (error?.response?.status = 401) {
-      //     auth.loginRequiredRedirect()
-      //   }
-      // }, [auth, error])
-
+    
       if (error) return <div>failed to load</div>
       if (isLoading) return <div>loading...</div>
 

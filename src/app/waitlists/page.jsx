@@ -2,16 +2,44 @@
 
 import Image from "next/image";
 import useSWR from 'swr'
+import { useEffect } from "react";
 
-const fetcher = (...args) => fetch(...args).then(res => res.json())
+const fetcher = async url => {
+  const res = await fetch(url)
+ 
+  // If the status code is not in the range 200-299,
+  // we still try to parse and throw it.
+  if (!res.ok) {
+    const error = new Error('An error occurred while fetching the data.')
+    // Attach extra info to the error object.
+    error.info = await res.json()
+    error.status = res.status
+    throw error
+  }
+  return res.json()
+}
 
-const WAITLIST_API_URL = "/api/waitlist/"
+const WAITLIST_API_URL = "/api/waitlists/"
 
 export default function Home() {
 
   // GET requests
   const { data, error, isLoading } = useSWR(WAITLIST_API_URL,fetcher)
-    
+  
+  console.log("render, error?.status:", error?.status);
+
+  // If there's an error, log it again here
+  if (error) {
+    console.log("Error status:", error.status);
+    return <div>failed to load</div>;
+  }
+
+  // useEffect(()=> {
+  //   if (error?.response?.status = 401) {
+  //     auth.loginRequiredRedirect()
+  //   }
+  // }, [auth, error])
+
       if (error) return <div>failed to load</div>
       if (isLoading) return <div>loading...</div>
 
