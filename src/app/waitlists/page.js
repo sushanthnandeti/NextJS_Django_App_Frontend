@@ -3,9 +3,10 @@
 import Image from "next/image";
 import useSWR from 'swr'
 import { useEffect } from "react";
+import { useAuth } from "../components/authProvider";
 
 const fetcher = async url => {
-  const res = await fetch(url)
+  const res = await fetch(url)  
  
   // If the status code is not in the range 200-299,
   // we still try to parse and throw it.
@@ -24,21 +25,14 @@ const WAITLIST_API_URL = "/api/waitlists/"
 export default function Home() {
 
   // GET requests
-  const { data, error, isLoading } = useSWR(WAITLIST_API_URL,fetcher)
+  const { data, error, isLoading} = useSWR(WAITLIST_API_URL,fetcher)
+  const auth = useAuth()
   
-  console.log("render, error?.status:", error?.status);
-
-  // If there's an error, log it again here
-  if (error) {
-    console.log("Error status:", error.status);
-    return <div>failed to load</div>;
-  }
-
-  // useEffect(()=> {
-  //   if (error?.response?.status = 401) {
-  //     auth.loginRequiredRedirect()
-  //   }
-  // }, [auth, error])
+  useEffect(()=> {
+    if (error?.status === 401) {
+      auth.loginRequiredRedirect()
+    }
+  }, [auth, error])
 
       if (error) return <div>failed to load</div>
       if (isLoading) return <div>loading...</div>

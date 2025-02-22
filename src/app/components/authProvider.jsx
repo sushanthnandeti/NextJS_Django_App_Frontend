@@ -6,7 +6,7 @@ const { createContext, useContext, useState, useEffect} = require("react");
 
 const AuthContext = createContext(null);
 
-const LOCAL_STORAGE_KEY = 'token-item'
+const LOCAL_STORAGE_KEY = 'is-logged-in'
 const LOGIN_REDIRECT_URL = '/'
 const LOGOUT_REDIRECT_URL = '/logout'
 const LOGIN_REQUIRED_URL = '/login'
@@ -43,7 +43,7 @@ export function AuthProvider({children}) {
             setIsAuthenticated(false)
             localStorage.removeItem(LOCAL_STORAGE_KEY, "0")
             let loginWithNextUrl = `${LOGIN_REQUIRED_URL}?next=${pathname}`
-            if (LOGIN_REQUIRED_URl === pathname) {
+            if (LOGIN_REQUIRED_URL === pathname) {
                 loginWithNextUrl = `${LOGIN_REQUIRED_URL}`
             }
             router.replace(loginWithNextUrl)

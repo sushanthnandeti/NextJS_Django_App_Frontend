@@ -27,7 +27,6 @@ export default function Page() {
         if (response.ok) {
             console.log(" Logged Out")
             auth.logout()
-            console.log(data)
         }
     }
 

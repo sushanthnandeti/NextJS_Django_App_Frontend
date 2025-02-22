@@ -29,7 +29,6 @@ export default function Page() {
      
         if (response.ok) {
             console.log(" Logged In")
-            console.log(data)
             auth.login()
         }
 
