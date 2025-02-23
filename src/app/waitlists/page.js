@@ -3,7 +3,7 @@
 import Image from "next/image";
 import useSWR from 'swr'
 import { useEffect } from "react";
-import { useAuth } from "../components/authProvider";
+import { useAuth } from "../../components/authProvider";
 
 const fetcher = async url => {
   const res = await fetch(url)  

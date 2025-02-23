@@ -1,6 +1,6 @@
 'use client'
 
-import { useAuth } from "../components/authProvider";
+import { useAuth } from "../../components/authProvider";
 // --> url --> /login    
 
 const LOGIN_URL = "/api/login/"
