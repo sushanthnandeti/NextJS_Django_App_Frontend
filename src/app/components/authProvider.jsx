@@ -1,6 +1,6 @@
 'use client'
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const { createContext, useContext, useState, useEffect} = require("react");
 
@@ -8,7 +8,7 @@ const AuthContext = createContext(null);
 
 const LOCAL_STORAGE_KEY = 'is-logged-in'
 const LOGIN_REDIRECT_URL = '/'
-const LOGOUT_REDIRECT_URL = '/logout'
+const LOGOUT_REDIRECT_URL = '/login'
 const LOGIN_REQUIRED_URL = '/login'
 
 export function AuthProvider({children}) {
@@ -16,6 +16,8 @@ export function AuthProvider({children}) {
     const router = useRouter()
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     const pathname = usePathname()
+    const searchParams = useSearchParams()
+    
 
     useEffect(() => {
         const storedAuthStatus = localStorage.getItem(LOCAL_STORAGE_KEY)
@@ -28,7 +30,16 @@ export function AuthProvider({children}) {
     const login = () => {
         setIsAuthenticated(true)
         localStorage.setItem(LOCAL_STORAGE_KEY, "1")
-        router.replace(LOGIN_REDIRECT_URL)
+        const nextUrl = searchParams.get("next")
+        const invalidNextUrl = ['/login','/logout']
+        const nextUrlValid = nextUrl && nextUrl.startsWith("/") && !invalidNextUrl.includes(nextUrl)
+
+        if (nextUrlValid) {
+            router.replace(nextUrl)
+        }
+        else {
+            router.replace(LOGIN_REDIRECT_URL)
+            }  
     }
 
     const logout = () => {
