@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { useAuth } from "./authProvider"
+
 import {
   Card,
   CardContent,
@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useState } from "react"
 
 
 const LOGIN_URL = "/api/waitlists/"
@@ -21,9 +22,9 @@ export function WaitlistForm({
   ...props
 }) 
 {
+        const [message, setMessage] = useState("");
+        const [error, setError] = useState("");
 
-        const auth = useAuth()
-    
         async function handleClick(event) {
 
         event.preventDefault()
@@ -44,8 +45,10 @@ export function WaitlistForm({
         const data = await response.json()
      
         if (response.ok) {
-            console.log(" Logged In")
-            auth.login()
+            setMessage(" Thank you for joining")
+        }
+        else {
+            setError("There was some Error, Please try again")
         }
 
     }
@@ -54,40 +57,31 @@ export function WaitlistForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardTitle className="text-2xl">Waitlist</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Enter your email below to join the waitlist
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleClick}>
+            <div> {message && message} </div>
+            <div> {error && error} </div>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="username">Username</Label>
+                <Label htmlFor="email">Email</Label>
                 <Input
-                  id="username"
-                  type="username"
-                  name= "username"
-                  placeholder="Your username"
+                  id="email"
+                  type="email"
+                  name= "email"
+                  placeholder="Your email"
                   required
                 />
               </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
-                </div>
-                <Input id="password" name="password" type="password" required />
-              </div>
+        
               <Button type="submit" className="w-full">
-                Login
+                Join Waitlist
               </Button>
             
-            </div>
-            <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
-              <a href="" className="underline underline-offset-4">
-                Sign up
-              </a>
             </div>
           </form>
         </CardContent>
