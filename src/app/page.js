@@ -23,15 +23,9 @@ export default function Home() {
             {auth.isAuthenticated ? "Hello User" : "Hello guest"}
             </div>
           </div>
-         <div>
-           
-         </div>
-         <div>
+          <div>
           <ThemeToggleButton />
-         </div>
-           <div>
-
-           </div>
+          </div>
            
     </div>
   );
